@@ -44,10 +44,11 @@ class StyleAugmentor(nn.Module):
         self.A = torch.tensor(self.A).float().to(device) # 100 x 100
         # self.cov = cov(Ax), x ~ N(0,1)
     
-    def sample_embedding(self,n):
+    def sample_embedding(self,n,embedding):
         # n: number of embeddings to sample
         # returns n x 100 embedding tensor
-        embedding = torch.randn(n,100).to(device) # n x 100
+        if embedding == None:
+            embedding = torch.randn(n,100).to(device) # n x 100
         embedding = torch.mm(embedding,self.A.transpose(1,0)) + self.mean # n x 100
         return embedding
 
@@ -69,9 +70,9 @@ class StyleAugmentor(nn.Module):
             for i in range(downsamples):
                 x = nn.functional.avg_pool2d(x,2)
 
-        if embedding is None:
-            # sample a random embedding
-            embedding = self.sample_embedding(x.size(0))
+        # normalize embedding with mean  imagenet embedding, if no embedding is existent also normalize it
+        embedding = self.sample_embedding(x.size(0),embedding)
+        
         # interpolate style embeddings:
         embedding = alpha*embedding + (1-alpha)*base
         
