@@ -1,5 +1,10 @@
 # README #
 
+In this fork of the style_augmentation I changed the way the embedding is processed. If now an embedding is given, it is still normalized with the mean of the imagenet embedddings. This way, a random embedding can be sampled outside this package and be used for multiple images while keeping the same processing.
+
+I also made the code suitable for CPU use (I got errors before which had to to with the map location)
+
+--------------------------------------
 Augment training images for deep neural networks by randomizing their visual style, as described in our paper: https://arxiv.org/abs/1809.05375
 
 To the best of our knowledge, this is also the only PyTorch implementation (with trained weights) of the arbitrary style transfer network in "Exploring the structure of a real-time, arbitrary neural artistic stylization network": https://arxiv.org/abs/1705.06830
