@@ -52,7 +52,7 @@ class StyleAugmentor(nn.Module):
     def sample_embedding(self,n,embedding):
         # n: number of embeddings to sample
         # returns n x 100 embedding tensor
-        if embedding == None:
+        if embedding is None:
             embedding = torch.randn(n,100).to(device) # n x 100
         embedding = torch.mm(embedding,self.A.transpose(1,0)) + self.mean # n x 100
         return embedding
